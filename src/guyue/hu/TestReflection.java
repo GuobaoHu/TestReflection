@@ -19,6 +19,10 @@ public class TestReflection {
 			Method m2 = null;
 			try {
 				m1 = ct.getMethod("setI", int.class);
+				Class[] cParaTypes = m1.getParameterTypes();
+				for(Class cParaType : cParaTypes) {
+					System.out.println(cParaType.getName());
+				}
 				m2 = ct.getMethod("getI");
 			} catch (NoSuchMethodException | SecurityException e) {
 				e.printStackTrace();
