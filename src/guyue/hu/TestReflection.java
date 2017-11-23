@@ -12,18 +12,31 @@ public class TestReflection {
 
 	public static void main(String[] args) {
 		try {
-			@SuppressWarnings("rawtypes")
-			Class ct = Class.forName("guyue.hu.TT");
-			ct.newInstance();
-			Method[] m1 = ct.getMethods();
-//			Method[] m2 = ct.getDeclaredMethods();
-			for(Method m : m1) {
-//				System.out.println(m.getName());
-				if(m.getName().equals("getStr")) {
-					Object o = m.invoke(ct.newInstance());
-					System.out.println(o);
-				}
+			
+			Class<TT> ct = (Class<TT>) Class.forName("guyue.hu.TT");
+			TT tt = ct.newInstance();
+			Method m1 = null;
+			Method m2 = null;
+			try {
+				m1 = ct.getMethod("setI", int.class);
+				m2 = ct.getMethod("getI");
+			} catch (NoSuchMethodException | SecurityException e) {
+				e.printStackTrace();
+				System.exit(-1);
 			}
+			m1.invoke(tt, 12);
+			int i = (int) m2.invoke(tt);
+			System.out.println(i);
+			
+		/*	Method[] m1 = ct.getMethods();
+			Method[] m2 = ct.getDeclaredMethods();
+			for(Method m : m1) {
+				System.out.println(m.getName());
+				if(m.getName().equals("mTest")) {
+					Object o = m.invoke(tt);
+					
+				}
+			}*/
 			System.out.println();
 			/*for(Method m : m2) {
 				System.out.println(m.getName());
@@ -52,6 +65,10 @@ class TT {
 	
 	public void setI(int i) {
 		this.i = i;
+	}
+	
+	public int getI() {
+		return i;
 	}
 	
 	public void mTest() {
